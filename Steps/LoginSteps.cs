@@ -8,7 +8,7 @@ using TechTalk.SpecFlow.Assist;
 
 namespace NUnitWillhaben1.Steps
 {
-    //[TestFixture]
+    [TestFixture]
     [Binding]
     
     public sealed class LoginSteps
@@ -133,8 +133,8 @@ namespace NUnitWillhaben1.Steps
             this.driver.Close();
         }
 
-        
-        //[OneTimeTearDown]
-        //public void Teardown() => this.driver.Quit();
+
+        [OneTimeTearDown]
+        public void Teardown() => this.driver.Quit();
     }
 }

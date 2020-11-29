@@ -4,6 +4,10 @@
     <TargetFramework>netcoreapp3.1</TargetFramework>
 
     <IsPackable>false</IsPackable>
+
+    <AssemblyName>NUnitWillhaben1</AssemblyName>
+
+    <RootNamespace>NUnitWillhaben1</RootNamespace>
   </PropertyGroup>
 
   <ItemGroup>
