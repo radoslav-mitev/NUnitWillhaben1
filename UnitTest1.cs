@@ -5,6 +5,7 @@ using OpenQA.Selenium.Support.UI;
 using System;
 
 namespace NUnitWillhaben1
+//Simple NUnit test with hard coded test data, additional to the SpecFlow Tests
 {
     [TestFixture]
     public class TestWillhaben
@@ -39,6 +40,7 @@ namespace NUnitWillhaben1
         [Test]
         public void Test()
         {
+            //test data are hard coded
             this.willhabenLoginpage.SetEMail("test00000@test.at");
             this.willhabenLoginpage.SetPassword("password");
             this.willhabenLoginpage.SetSubmitButtonClick();
