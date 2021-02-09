@@ -21,7 +21,8 @@ namespace NUnitWillhaben1
         {
             this.driver = new ChromeDriver();
             this.driver.Navigate().GoToUrl("https://www.willhaben.at/iad");
-            
+            System.Threading.Thread.Sleep(10000);
+
             this.wait = new WebDriverWait(this.driver, TimeSpan.FromSeconds(15));
 
             this.willhabenHomepage = new WillhabenHomepage(this.driver);
