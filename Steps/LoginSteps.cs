@@ -1,6 +1,7 @@
 ﻿using NUnit.Framework;
 using OpenQA.Selenium;
 using OpenQA.Selenium.Chrome;
+using OpenQA.Selenium.Remote;
 using OpenQA.Selenium.Support.UI;
 using System;
 using TechTalk.SpecFlow;
@@ -10,23 +11,28 @@ namespace NUnitWillhaben1.Steps
 {
     [TestFixture]
     [Binding]
-    
+
     public sealed class LoginSteps
 
     {
-        private IWebDriver driver= new ChromeDriver();
+        private IWebDriver driver;
         private WillhabenHomepage willhabenHomepage;
         private WillhabenLoginPage willhabenLoginpage;
         private WebDriverWait wait;
 
-                
+        
+
         [Given(@"an user opens www\.willhaben\.at in a chrome browser")]
         public void GivenAnUserOpensWww_Willhaben_AtInAChromeBrowser()
         {
-            //this.driver = new ChromeDriver();
+            //this.driver = new ChromeDriver();//without docker
+
+            var options = new ChromeOptions();//in case of docker implementation
+            this.driver = new RemoteWebDriver(new Uri("http://localhost:4444/wd/hub/"), options);//in case of docker implementation
+
             this.driver.Navigate().GoToUrl("https://www.willhaben.at/iad");
 
-            this.wait = new WebDriverWait(this.driver, TimeSpan.FromSeconds(15));
+            this.wait = new WebDriverWait(this.driver, TimeSpan.FromSeconds(25));
 
             this.willhabenHomepage = new WillhabenHomepage(this.driver);
             this.willhabenLoginpage = new WillhabenLoginPage(this.driver);
@@ -49,7 +55,7 @@ namespace NUnitWillhaben1.Steps
             this.willhabenLoginpage.SetEMail((String)data.eMail);
             this.willhabenLoginpage.SetPassword((String)data.password);
             this.willhabenLoginpage.SetSubmitButtonClick();
-            
+
         }
 
         [Then(@"user should see \[Der Benutzername oder das Passwort konnten nicht erkannt werden\.]")]
@@ -61,7 +67,7 @@ namespace NUnitWillhaben1.Steps
             Assert.IsTrue(element.Displayed);
             this.driver.Close();
         }
-        
+
         [When(@"trying to log into accoung using correct ""(.*)"" format but without a ""(.*)""")]
         public void WhenTryingToLogIntoAccoungUsingCorrectFormatButWithoutA(string p0, string p1)
         {

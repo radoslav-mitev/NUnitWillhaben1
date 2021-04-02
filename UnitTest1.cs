@@ -1,6 +1,7 @@
 using NUnit.Framework;
 using OpenQA.Selenium;
 using OpenQA.Selenium.Chrome;
+using OpenQA.Selenium.Remote;
 using OpenQA.Selenium.Support.UI;
 using System;
 
@@ -19,9 +20,14 @@ namespace NUnitWillhaben1
         [OneTimeSetUp]
         public void Setup()
         {
-            this.driver = new ChromeDriver();
-            this.driver.Navigate().GoToUrl("https://www.willhaben.at/iad");
-            System.Threading.Thread.Sleep(10000);
+
+            //this.driver = new ChromeDriver();//without docker
+
+            var options = new ChromeOptions();//in case of docker implementation
+            this.driver = new RemoteWebDriver(new Uri("http://localhost:4444/wd/hub/"), options);//in case of docker implementation
+
+            this.driver.Navigate().GoToUrl("https://www.willhaben.at/iad");//LT
+            //System.Threading.Thread.Sleep(10000);
 
             this.wait = new WebDriverWait(this.driver, TimeSpan.FromSeconds(15));
 
@@ -35,7 +41,6 @@ namespace NUnitWillhaben1
             //Click on "Einloggen" link
             this.wait.Until(SeleniumExtras.WaitHelpers.ExpectedConditions
                 .ElementToBeClickable(this.willhabenHomepage.LoginLink)).Click();
-
         }
 
         [Test]
