@@ -11,54 +11,54 @@ namespace NUnitWillhaben1
     [TestFixture]
     public class TestWillhaben
     {
-        private IWebDriver driver;
-        private WillhabenHomepage willhabenHomepage;
-        private WillhabenLoginPage willhabenLoginpage;
-        private WebDriverWait wait;
+        private IWebDriver _driver;
+        private WillhabenHomepage _willhabenHomepage;
+        private WillhabenLoginPage _willhabenLoginpage;
+        private WebDriverWait _wait;
 
 
         [OneTimeSetUp]
         public void Setup()
         {
 
-            //this.driver = new ChromeDriver();//without docker
+            //this._driver = new ChromeDriver();//without docker
 
             var options = new ChromeOptions();//in case of docker implementation
-            this.driver = new RemoteWebDriver(new Uri("http://localhost:4444/wd/hub/"), options);//in case of docker implementation
+            this._driver = new RemoteWebDriver(new Uri("http://localhost:4444/wd/hub/"), options);//in case of docker implementation
 
-            this.driver.Navigate().GoToUrl("https://www.willhaben.at/iad");//LT
+            this._driver.Navigate().GoToUrl("https://www.willhaben.at/iad");//LT
             //System.Threading.Thread.Sleep(10000);
 
-            this.wait = new WebDriverWait(this.driver, TimeSpan.FromSeconds(15));
+            this._wait = new WebDriverWait(this._driver, TimeSpan.FromSeconds(25));
 
-            this.willhabenHomepage = new WillhabenHomepage(this.driver);
-            this.willhabenLoginpage = new WillhabenLoginPage(this.driver);
+            this._willhabenHomepage = new WillhabenHomepage(this._driver);
+            this._willhabenLoginpage = new WillhabenLoginPage(this._driver);
 
             //accepting cookies in popup element
-            this.wait.Until(SeleniumExtras.WaitHelpers.ExpectedConditions
-                .ElementToBeClickable(this.willhabenHomepage.CookiesAlert)).Click();
+            this._wait.Until(SeleniumExtras.WaitHelpers.ExpectedConditions
+                .ElementToBeClickable(this._willhabenHomepage.CookiesAlert)).Click();
 
             //Click on "Einloggen" link
-            this.wait.Until(SeleniumExtras.WaitHelpers.ExpectedConditions
-                .ElementToBeClickable(this.willhabenHomepage.LoginLink)).Click();
+            this._wait.Until(SeleniumExtras.WaitHelpers.ExpectedConditions
+                .ElementToBeClickable(this._willhabenHomepage.LoginLink)).Click();
         }
 
         [Test]
         public void Test()
         {
             //test data are hard coded
-            this.willhabenLoginpage.SetEMail("test00000@test.at");
-            this.willhabenLoginpage.SetPassword("password");
-            this.willhabenLoginpage.SetSubmitButtonClick();
+            this._willhabenLoginpage.SetEMail("test00000@test.at");
+            this._willhabenLoginpage.SetPassword("password");
+            this._willhabenLoginpage.SetSubmitButtonClick();
 
             //Assert.IsTrue(this.willhabenLoginpage.GetAlertIncorrectCredentials().Displayed);
-            IWebElement element = this.wait.Until(SeleniumExtras.WaitHelpers.ExpectedConditions
-                .ElementToBeClickable(this.willhabenLoginpage.GetAlertIncorrectCredentials()));
+            IWebElement element = this._wait.Until(SeleniumExtras.WaitHelpers.ExpectedConditions
+                .ElementToBeClickable(this._willhabenLoginpage.GetAlertIncorrectCredentials()));
 
             Assert.IsTrue(element.Displayed);
         }
 
         [OneTimeTearDown]
-        public void Teardown() => this.driver.Close();
+        public void Teardown() => this._driver.Close();
     }
 }
